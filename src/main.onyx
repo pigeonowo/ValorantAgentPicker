@@ -1,0 +1,91 @@
+use core{*}
+
+#load "./jsHelpers.onyx"
+use jsHelpers{*}
+
+main :: () {
+    // get Agent Data
+    agents := getAllAgents();
+    // display Agents
+    container := js.Global->get("document")->call("getElementById", "agents");
+    displayAgents(container, agents);
+    // button to randomly select
+}
+
+Agent :: struct {
+    name: str;
+    role: Role;
+    number: u8;
+}
+
+getAgentPic :: (a: &Agent) -> str {
+    return "./images/"+a.name+".png";
+}
+
+Role :: enum {
+    DUELIST::0;
+    CONTROLLER::1;
+    SENTINEL::2;
+    INITIATOR::3;
+}
+
+getAllAgents :: () -> []Agent {
+    agents: [..]Agent;
+    agents->push(Agent.{"Astra", .CONTROLLER, 16});
+    agents->push(Agent.{"Breach", .INITIATOR, 13});
+    agents->push(Agent.{"Brimstone", .CONTROLLER, 1});
+    agents->push(Agent.{"Chamber", .SENTINEL, 18});
+    agents->push(Agent.{"Clove", .CONTROLLER, 25});
+    agents->push(Agent.{"Cypher", .SENTINEL, 5});
+    agents->push(Agent.{"Deadlock", .SENTINEL, 23});
+    agents->push(Agent.{"Fade", .INITIATOR, 20});
+    agents->push(Agent.{"Gekko", .INITIATOR, 22});
+    agents->push(Agent.{"Harbor", .CONTROLLER, 21});
+    agents->push(Agent.{"Iso", .DUELIST, 24});
+    agents->push(Agent.{"Jett", .DUELIST, 10});
+    agents->push(Agent.{"Kayo", .INITIATOR, 17});
+    agents->push(Agent.{"Killjoy", .SENTINEL, 4});
+    agents->push(Agent.{"Neon", .DUELIST, 19});
+    agents->push(Agent.{"Omen", .CONTROLLER, 3});
+    agents->push(Agent.{"Pheonix", .DUELIST, 9});
+    agents->push(Agent.{"Raze", .DUELIST, 12});
+    agents->push(Agent.{"Reyna", .DUELIST, 11});
+    agents->push(Agent.{"Sage", .SENTINEL, 7});
+    agents->push(Agent.{"Skye", .INITIATOR, 14});
+    agents->push(Agent.{"Sova", .INITIATOR, 6});
+    agents->push(Agent.{"Viper", .CONTROLLER, 2});
+    agents->push(Agent.{"Yoru", .DUELIST, 15});
+    return agents;
+}
+
+displayAgents :: (element: js.Value, agents: []Agent) {
+    for agents {
+        cLog(it.name);
+        div := createElement("div");
+        div->call("setAttribute", "class", "agent");
+        p := createElement("p");
+        p->set("innerText", it.name);
+        div->call("appendChild", p);
+        img := createElement("img");
+        img->set("src", getAgentPic(&it));
+        img->call("setAttribute", "class", "agentPic");
+        div->call("appendChild", img);
+        div->get("style")->set("background", "green");
+
+        div->call("addEventListener", "click", js.func((this, args) => {
+            style := this->get("style");
+            color := style->get("background")->as_str() ?? "red";
+            if color == "red" do style->set("background", "green");
+            else do style->set("background", "red");
+            return js.Undefined;
+        }));
+
+        element->call("appendChild", div);
+    }
+}
+
+
+// other
+#operator + (a: str, b: str) -> str {
+    return string.concat(a,b);
+}

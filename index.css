@@ -1,0 +1,32 @@
+.agentContainer {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.agent {
+    border-radius: 5%;
+    border: 2px solid black;
+    width: 200px;
+    height: 200px;
+    margin: 20px;
+    text-align: center;
+}
+
+.agentPic {
+    width: 75%;
+}
+
+.heading {
+    width: 100%;
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

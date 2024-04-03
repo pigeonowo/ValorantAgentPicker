@@ -1,0 +1,18 @@
+
+package jsHelpers
+
+use core{*}
+
+
+// js helpers
+getDocument :: () -> js.Value {
+    return js.Global->get("document");
+}
+
+createElement :: (e: str) -> js.Value {
+    return getDocument()->call("createElement", e);
+}
+
+cLog :: (input: any) {
+    js.Global->get("console")->call("log", input);
+}
